@@ -39,12 +39,36 @@ TIPS DE MARTIN:
 #include "fileManagement.h"
 #include "nwAlgorithm.h"
 
+#include <fstream>
 #include <iostream>
 
 using namespace std;
 
 int main ( int argc, char **argv )
 {
+    string file1 = argv[1];
+    //string file2 = argv[2];
+
+    string cleanFirstFile; 
+    //string cleanSecondFile;
+
+    readGenBankFile(file1, cleanFirstFile);
+    //readGenBankFile(file2, cleanSecondFile);
+
+    //call the algorithm
+    int length = 0; 
+    cout << endl << endl;
+
+    for(int i = 0; i< cleanFirstFile.length(); i++)
+    {
+        if(length >= 60)
+        {
+            cout << endl;
+            length = 0;
+        }
+        cout << cleanFirstFile[i];      
+        length++;
+    }
 
     return 0;
 }
