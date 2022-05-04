@@ -23,10 +23,12 @@ void readGenBankFile (string& inputfile, string& outputstring)
             break;
     }
 
-    while(getline(inputFile, line)) {
+    while(getline(inputFile, line)) 
+    {
         for(int i = 0; i < line.length(); i++)
         {
-            switch(line[i]) {
+            switch(line[i]) 
+            {
                 case 'a':   /* Fallstrough */
                 case 'c':
                 case 'g':
@@ -37,7 +39,9 @@ void readGenBankFile (string& inputfile, string& outputstring)
                     break;
             }
         }
-    
+
+        if(line.find("ORIGIN")!= string::npos)
+            break;    
     }
 
     inputFile.close(); 

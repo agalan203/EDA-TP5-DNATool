@@ -13,14 +13,6 @@
  * 
  */
 
-/* 
-TODO n1: leer e interpretar archivos: 
-- abrir 
-- find "ORIGIN" 
-- remove all not acgt characters 
-- write to new file
-*/
-
 //diagonal: coincidencia-sustitucion
 //izquierda: insercion
 //arriba: delecion
@@ -47,15 +39,17 @@ using namespace std;
 int main ( int argc, char **argv )
 {
     string file1 = argv[1];
-    //string file2 = argv[2];
+    string file2 = argv[2];
 
     string cleanFirstFile; 
-    //string cleanSecondFile;
+    string cleanSecondFile;
 
     readGenBankFile(file1, cleanFirstFile);
-    //readGenBankFile(file2, cleanSecondFile);
+    readGenBankFile(file2, cleanSecondFile);
 
     //call the algorithm
+
+    //print
     int length = 0; 
     cout << endl << endl;
 
@@ -69,6 +63,8 @@ int main ( int argc, char **argv )
         cout << cleanFirstFile[i];      
         length++;
     }
+
+    cout << endl;
 
     return 0;
 }
