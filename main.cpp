@@ -25,8 +25,11 @@ la sección Alineamiento de secuencias.
 */
 
 /*
-TIPS DE MARTIN:
-- 
+coincidencias = '|'
+indel = ' '
+sustituciones = '*'
+SI TE MOVES DENTRO DE LA MISMA FILA O DE LA MISMA COLUMNA VA UN _ en ese string
+verticalmente -> string2
 */
 #include "fileManagement.h"
 #include "nwAlgorithm.h"
