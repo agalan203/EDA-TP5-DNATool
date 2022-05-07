@@ -23,8 +23,6 @@ using namespace std;
 
 typedef std::map<pair<int, int>, float> Allignment;
 
-
-
 /**
  * @brief Makes the matrix to find the best alignment
  * 
