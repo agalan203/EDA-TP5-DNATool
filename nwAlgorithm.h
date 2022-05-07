@@ -11,10 +11,19 @@
 
 #include <algorithm>
 #include <string>
+#include <vector>
+#include <map>
+
+using namespace std;
 
 #define INDELSCORE -1
 #define SUBSTSCORE -1
 #define MATCHSCORE +1
+
+
+typedef std::map<pair<int, int>, float> Allignment;
+
+
 
 /**
  * @brief Makes the matrix to find the best alignment
