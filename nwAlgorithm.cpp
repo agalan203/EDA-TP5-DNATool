@@ -2,8 +2,6 @@
  * @file nwAlgorithm.cpp
  * @author Albertina Galan & Sebastian Nahuel Herrera
  * @brief Needleman Wunsch algorithm
- * @version 0.1
- * @date 2022-04-26
  * 
  * @copyright Copyright (c) 2022
  * 
@@ -39,8 +37,8 @@ int nwAlgorithm(string& genseq1, string& genseq2, vector<T_Allignment>& allignme
     	{
     		int thisScore = genseq1[i-1] == genseq2[j-1] ? MATCHSCORE : SUBSTSCORE; 
             allignMtrx[i * newRow + j] = maxValue(allignMtrx[(i-1) * newRow + (j-1)] + thisScore, 
-    									allignMtrx[(i-1) * newRow + j] + INDELSCORE, 
-    									allignMtrx[i * newRow + (j-1)] + INDELSCORE);
+    											  allignMtrx[(i-1) * newRow + j] + INDELSCORE, 
+    											  allignMtrx[i * newRow + (j-1)] + INDELSCORE);
     	}
     }
 
@@ -121,7 +119,6 @@ void printBestAllignment(vector<T_Allignment>& allignment, string& genseq1, stri
 			alSeq1 += genseq1[allignment.at(i).row];
 			alSeq2 += genseq2[allignment.at(i).column];
 			
-			//esto esta bien
 			if(diference < 0)
 				alChars += '|';
 			else

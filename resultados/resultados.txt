@@ -1,0 +1,33 @@
+Para los archivos de resources/test los scores obtenidos:
+
+Alpha v. Beta = 29819 (para referencia)
+
+Mystery genome 1 v. Alpha = 29730
+Mystery genome 1 v. Beta = 29771
+Mystery genome 1 v. Delta = 29826
+Mystery genome 1 v. Gamma = 29727
+Mystery genome 1 v. Omicron 1 = 29696
+Mystery genome 1 v. Omicron 2 = 29701
+Mystery genome 1 v. Wuhan = 29789
+
+Mystery genome 1 se parece más a la variante Delta.
+
+Mystery genome 2 v. Alpha = 29822
+Mystery genome 2 v. Beta = 29865
+Mystery genome 2 v. Delta = 29807
+Mystery genome 2 v. Gamma = 29821
+Mystery genome 2 v. Omicron 1 = 29774
+Mystery genome 2 v. Omicron 2 = 29777
+Mystery genome 2 v. Wuhan = 29885
+
+Mystery genome 2 se parece más a la variante de Wuhan.
+
+Mystery genome 3 v. Alpha = 29745
+Mystery genome 3 v. Beta = 29786
+Mystery genome 3 v. Delta = 29840
+Mystery genome 3 v. Gamma = 29742
+Mystery genome 3 v. Omicron 1 = 29711
+Mystery genome 3 v. Omicron 2 = 29716
+Mystery genome 3 v. Wuhan = 29804
+
+Mystery genome 3 se parece más a la variante Delta.

@@ -2,8 +2,6 @@
  * @file nwAlgorithm.cpp
  * @author Albertina Galan & Sebastian Nahuel Herrera
  * @brief Needleman Wunsch algorithm
- * @version 0.1
- * @date 2022-04-26
  * 
  * @copyright Copyright (c) 2022
  * 
@@ -37,7 +35,7 @@ typedef struct Allignment
  * @brief Makes the matrix to find the best allignment
  * 
  * The algorithm has computational complexity of O(n^2)
- * In reality it is O(size of genseq1 * size of genseq2), which can be aproximated do n^2
+ * In reality it is O(size of genseq1 * size of genseq2), which can be aproximated to n^2
  * 
  * @param genseq1 the first genetic sequence
  * @param genseq2 the second genetic sequence
