@@ -51,14 +51,16 @@ int main ( int argc, char **argv )
     readGenBankFile(file2, cleanSecondFile);
 
     //TODO: just for debug
-    string genseq1 = "taaaggtttataccttcccaggtaacaaaccaaccaactttcgatctcttgtagatctgttctctaaacgaactttaaaatctgtgtggctgtcactcgg";
-    string genseq2 = "aaggtttataccttcccaggtaacaaaccaaccaactttcgatctcttgtagatctgttctctaaacgaactttaaaatctgt";
+    //string genseq1 = "taaaggtttataccttcccaggtaacaaaccaaccaactttcgatctcttgtagatctgttctctaaacgaactttaaaatctgtgtggctgtcactcgg";
+    //string genseq2 = "aaggtttataccttcccaggtaacaaaccaaccaactttcgatctcttgtagatctgttctctaaacgaactttaaaatctgt";
+    
+    string genseq1 = "CGATACG";
+    string genseq2 = "GATTACAGTAC";
 
     //call the algorithm
     vector<T_Allignment> allignment;
     nwAlgorithm(genseq1, genseq2, allignment);
 	printBestAllignment(allignment, genseq1, genseq2);
-
 
     return 0;
 }

@@ -15,31 +15,34 @@ using namespace std;
 
 void nwAlgorithm(string& genseq1, string& genseq2, vector<T_Allignment>& allignment)
 {
+	//make the matrix
 	int n = genseq1.size() + 1;
 	int m = genseq2.size() + 1;
 
 	int allignMtrx[n][m];
 
-	for (int i = 0 ; i < n; i++) //columnas
-	{
-		allignMtrx[0][i] = i * SUBSTSCORE;
-	}
-
-	for (int i = 0; i < m; i++) //filas
+	for (int i = 0 ; i < n; i++)
 	{
 		allignMtrx[i][0] = i * SUBSTSCORE;
 	}
 
-	for (int i = 1; i < n; i++) //col
+	for (int j = 0; j < m; j++)
 	{
-		for(int j = 1; j < m; j++) //fil
+		allignMtrx[0][j] = j * SUBSTSCORE;
+	}
+
+	for (int i = 1; i < n; i++)
+	{
+		for(int j = 1; j < m; j++)
 		{
-			int thisScore = genseq1[j-1] == genseq2[i-1] ? MATCHSCORE : SUBSTSCORE; 
-            allignMtrx[i][j] = max(allignMtrx[i-1][j-1] + thisScore, 
-							   max(allignMtrx[i-1][j] + INDELSCORE, allignMtrx[i][j-1] + INDELSCORE));
+			int thisScore = genseq1[i-1] == genseq2[j-1] ? MATCHSCORE : SUBSTSCORE; 
+            allignMtrx[i][j] = maxValue(allignMtrx[i-1][j-1] + thisScore, 
+										allignMtrx[i-1][j] + INDELSCORE, 
+										allignMtrx[i][j-1] + INDELSCORE);
 		}
 	}
 
+	//find the best allignment
 	T_Allignment allignValue;
 
 	int i = n-1, j = m-1;
@@ -47,13 +50,11 @@ void nwAlgorithm(string& genseq1, string& genseq2, vector<T_Allignment>& allignm
 	allignValue.column = i;
 	allignValue.row = j;
 	allignValue.score = allignMtrx[i][j];
-
 	allignment.push_back(allignValue);
 	
 	while ( i > 0 && j > 0)
 	{
-		int maxkey = max(allignMtrx[i-1][j-1], 
-					 max(allignMtrx[i-1][j], allignMtrx[i][j-1]));
+		int maxkey = maxValue(allignMtrx[i-1][j-1], allignMtrx[i-1][j], allignMtrx[i][j-1]);
 
 		if (maxkey == allignMtrx[i-1][j-1])
 		{
@@ -72,17 +73,34 @@ void nwAlgorithm(string& genseq1, string& genseq2, vector<T_Allignment>& allignm
 		allignValue.column = i;
 		allignValue.row = j;
 		allignValue.score = allignMtrx[i][j];
-		
 		allignment.push_back(allignValue);
 	}
 	
 	allignValue.column = 0;
 	allignValue.row = 0;
 	allignValue.score = 0;
-	
 	allignment.push_back(allignValue);
 
 	reverse(allignment.begin(), allignment.end());
+
+	cout << endl << endl;
+
+    for (int i = 0; i < n; i++) //col
+    {
+        for(int j = 0; j < m; j++) //fil
+        {
+            cout << allignMtrx[i][j] << " ";
+        }
+        cout << endl;
+    }
+
+    cout << endl << endl;
+
+    for (auto x : allignment )
+    {
+        cout << x.column << " " << x.row << " " << x.score << endl;
+    }
+
 }
 
 void printBestAllignment(vector<T_Allignment>& allignment, string& genseq1, string& genseq2)
@@ -98,21 +116,22 @@ void printBestAllignment(vector<T_Allignment>& allignment, string& genseq1, stri
 
 		if(allignment.at(i).column == allignment.at(i+1).column)
 		{
-			alSeq1 += genseq1[allignment.at(i).row];
-			alSeq2 += '-';
+			alSeq1 += '-';
+			alSeq2 += genseq2[allignment.at(i).row];
 			alChars += ' ';
 		}
 		else if(allignment.at(i).row == allignment.at(i+1).row)
 		{
-			alSeq1 += '-';
-			alSeq2 += genseq2[allignment.at(i).column];
+			alSeq1 += genseq1[allignment.at(i).column];
+			alSeq2 += '-';
 			alChars += ' ';
 		}
 		else
 		{
-			alSeq1 += genseq1[allignment.at(i).row];
-			alSeq2 += genseq2[allignment.at(i).column];
+			alSeq1 += genseq1[allignment.at(i).column];
+			alSeq2 += genseq2[allignment.at(i).row];
 			
+			//esto esta bien
 			if(diference < 0)
 				alChars += '|';
 			else
@@ -129,7 +148,7 @@ void printBestAllignment(vector<T_Allignment>& allignment, string& genseq1, stri
 
 	while (counter < (maxlength/60) + 1)
 	{
-		for(int i = counter * 60; i < alSeq2.length(); i++)
+		for(int i = counter * 60; i < alSeq1.length(); i++)
 		{
 			if(length >= 60)
 			{
@@ -137,7 +156,7 @@ void printBestAllignment(vector<T_Allignment>& allignment, string& genseq1, stri
 				length = 0;
 				break;
 			}
-			cout << alSeq2[i];
+			cout << alSeq1[i];
 			length++;
 		}
 
@@ -157,7 +176,7 @@ void printBestAllignment(vector<T_Allignment>& allignment, string& genseq1, stri
 		
 		cout << endl;
 
-		for(int z = counter * 60; z < alSeq1.length(); z++)
+		for(int z = counter * 60; z < alSeq2.length(); z++)
 		{
 			if(length >= 60)
 			{
@@ -165,7 +184,7 @@ void printBestAllignment(vector<T_Allignment>& allignment, string& genseq1, stri
 				length = 0;
 				break;
 			}
-			cout << alSeq1[z];
+			cout << alSeq2[z];
 			length++;
 		}
 
@@ -173,4 +192,9 @@ void printBestAllignment(vector<T_Allignment>& allignment, string& genseq1, stri
 
 		counter++;
 	}
+}
+
+int maxValue(int a, int b, int c)
+{
+    return max(a, max(b,c));
 }

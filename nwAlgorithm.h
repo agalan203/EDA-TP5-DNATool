@@ -51,3 +51,12 @@ void nwAlgorithm(string& genseq1, string& genseq2, vector<T_Allignment>& allignm
  */
 void printBestAllignment(vector<T_Allignment>& allignment, string& genseq1, string& genseq2);
 
+/**
+ * @brief Determines the maximum value between three numbers
+ * 
+ * @param a 
+ * @param b 
+ * @param c 
+ * @return int the maximum value
+ */
+int maxValue(int a, int b, int c);
