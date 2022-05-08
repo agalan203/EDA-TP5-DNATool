@@ -11,79 +11,187 @@
 
 #include "nwAlgorithm.h"
 
-int nwAlgorithm(string& genseq1, string& genseq2)
+using namespace std;
+
+void nwAlgorithm(string& genseq1, string& genseq2)
 {
-	int n = genseq1.size();
-	int m = genseq2.size();
+	int n = genseq1.size() + 1;
+	int m = genseq2.size() + 1;
+
 	int allignMtrx[n][m];
-	for (int i=0; i < n; i++) //columnas
+
+	for (int i = 0 ; i < n; i++) //columnas
 	{
 		allignMtrx[0][i] = i * SUBSTSCORE;
 	}
+
 	for (int i = 0; i < m; i++) //filas
 	{
 		allignMtrx[i][0] = i * SUBSTSCORE;
 	}
-	for (int i=1; i < n; i++) //todas col
+
+	for (int i = 1; i < n; i++) //col
 	{
-		for(int j=1; j < m;j++) //todas fil
+		for(int j = 1; j < m; j++) //fil
 		{
-			int thisScore = genseq1[j] == genseq2[i] ? MATCHSCORE : SUBSTSCORE; 
+			int thisScore = genseq1[j-1] == genseq2[i-1] ? MATCHSCORE : SUBSTSCORE; 
             allignMtrx[i][j] = max(allignMtrx[i-1][j-1] + thisScore, 
 							   max(allignMtrx[i-1][j] + INDELSCORE, allignMtrx[i][j-1] + INDELSCORE));
 		}
 	}
 
-	//pseudo funcion de alineamiento
+	vector<T_Allignment> allignment;
+	T_Allignment allignValue;
 
-	int i = n, j = m;
-	std::vector<char> seq1, seq2;
+	int i = n-1, j = m-1;
+	
+	allignValue.column = i;
+	allignValue.row = j;
+	allignValue.score = allignMtrx[i][j];
 
-	while (i != 0 && j != 0)
+	allignment.push_back(allignValue);
+	
+	while ( i > 0 && j > 0)
 	{
-		if (i == 0)
+		int maxkey = max(allignMtrx[i-1][j-1], 
+					 max(allignMtrx[i-1][j], allignMtrx[i][j-1]));
+
+		if (maxkey == allignMtrx[i-1][j-1])
 		{
-			j--;
-			seq1.push_back('_');
-			seq2.push_back(genseq2[j]);
+			i = i-1;
+			j = j-1;
 		}
-		else if (j == 0)
+		else if (maxkey == allignMtrx[i-1][j])
 		{
-			i--;
-			seq2.push_back('_');
-			seq1.push_back(genseq2[i]);
-		}
+			i = i-1;
+		}	
 		else 
 		{
-			//necesito tres casos, si viene en diagonal si viene arriba o abajo
-			int tryScore = genseq1[i-1] == genseq2[j-1] ? MATCHSCORE : SUBSTSCORE;
-			if (allignMtrx[i][j] == (allignMtrx[i-1][j-1] + tryScore))
-			{
-				seq1.push_back(genseq1[i - 1]);
-				seq2.push_back(genseq2[j - 1]);
-				i--;	//si me muevo en los dos altero los dos "iteradores"
-				j--;
-			}
-			else if (allignMtrx[i][j] == (allignMtrx[i][j-1]+INDELSCORE))
-			{
-				i--; //me estoy moviendo en la misma columna
-				seq1.push_back(genseq1[i]);
-				seq2.push_back('_');
-			}
-			else
-			{
-				j--; //me estoy moviendo en la misma fila
-				seq2.push_back(genseq1[j]);
-				seq1.push_back('_');
-			}
+			j = j-1;
 		}
 
+		allignValue.column = i;
+		allignValue.row = j;
+		allignValue.score = allignMtrx[i][j];
+		
+		allignment.push_back(allignValue);
+	}
+	
+	allignValue.column = 0;
+	allignValue.row = 0;
+	allignValue.score = 0;
+	
+	allignment.push_back(allignValue);
+
+	reverse(allignment.begin(), allignment.end());
+
+	cout << endl << endl;
+	
+	for (auto x : allignment )
+	{
+	    cout << x.column << " " << x.row << " " << x.score << endl;
 	}
 
-	reverse(seq1.begin(), seq1.end());
-	reverse(seq2.begin(), seq2.end());
-
-	return 0; //no clue what to do here
-	
+	printBestAllignment(allignment, genseq1, genseq2);
 }
 
+void printBestAllignment(vector<T_Allignment>& allignment, string& genseq1, string& genseq2)
+{
+	string alSeq1;
+	string alSeq2;
+	string alChars;
+
+/* 
+Si la diferencia entre consecutivos es < 0,
+hubo coincidencia -> va palito y se queda aji
+Si la diferencia es > 0 hubo sustitucion
+-> * y se queda ahi
+Si se mueve dentro de la misma fila (j igual)
+va un - en el string 2. 
+si se mueve dentro de la misma columna 
+(i igual) va un - en ese lugar del string 1
+si va un - ahi va espacio
+*/
+	//make the strings
+	for(int i = 0; i < allignment.size()-1 ; i++)
+	{
+		int diference =  allignment.at(i).score - allignment.at(i+1).score;
+		
+		if(allignment.at(i).column == allignment.at(i+1).column) //se movio en la mima columna
+		{
+			alSeq1 += '-';
+			alSeq2 += genseq2[allignment.at(i).row - 1];
+			alChars += ' ';
+		}
+		else if(allignment.at(i).row == allignment.at(i+1).row) //se movio en la mima fila
+		{
+			alSeq1 += genseq1[allignment.at(i).column - 1];
+			alSeq2 += '-';
+			alChars += ' ';
+		}
+		else //se movio en diagonal
+		{
+			alSeq1 += genseq1[allignment.at(i).column - 1];
+			alSeq2 += genseq2[allignment.at(i).row - 1];
+
+			if(diference < 0)
+				alChars += '|';
+			else
+				alChars += '*';
+		}	
+	}
+
+	//print the strings
+	int length = 0; 
+	int counter = 0;
+	int maxlength = max(alSeq1.length(), max(alChars.length(),alSeq2.length()));
+
+	cout << endl;
+
+	while (counter < (maxlength/60) + 1)
+	{
+		for(int i = counter * 60; i < alSeq1.length(); i++)
+		{
+			if(length >= 60)
+			{
+				cout << endl;
+				length = 0;
+				break;
+			}
+			cout << alSeq1[i];
+			length++;
+		}
+
+		cout << endl;
+
+		for(int j = counter * 60; j < alChars.length(); j++)
+		{
+			if(length >= 60)
+			{
+				cout << endl;
+				length = 0;
+				break;
+			}
+			cout << alChars[j];
+			length++;
+		}
+		
+		cout << endl;
+
+		for(int z = counter * 60; z < alSeq2.length(); z++)
+		{
+			if(length >= 60)
+			{
+				cout << endl;
+				length = 0;
+				break;
+			}
+			cout << alSeq2[z];
+			length++;
+		}
+
+		cout << endl;
+
+		counter++;
+	}
+}

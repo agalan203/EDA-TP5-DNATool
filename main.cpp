@@ -51,23 +51,9 @@ int main ( int argc, char **argv )
     readGenBankFile(file2, cleanSecondFile);
 
     //call the algorithm
-
-    //print
-    int length = 0; 
-    cout << endl << endl;
-
-    for(int i = 0; i< cleanFirstFile.length(); i++)
-    {
-        if(length >= 60)
-        {
-            cout << endl;
-            length = 0;
-        }
-        cout << cleanFirstFile[i];      
-        length++;
-    }
-
-    cout << endl;
+    string genseq1 = "CGATACG";
+    string genseq2 = "GATTACA";
+    nwAlgorithm(genseq1, genseq2);
 
     return 0;
 }

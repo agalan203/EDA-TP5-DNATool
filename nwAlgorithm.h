@@ -12,7 +12,7 @@
 #include <algorithm>
 #include <string>
 #include <vector>
-#include <map>
+#include <iostream>
 
 using namespace std;
 
@@ -20,14 +20,33 @@ using namespace std;
 #define SUBSTSCORE -1
 #define MATCHSCORE +1
 
+/**
+ * @brief Map of coordinates and score for the best allignment
+ * 
+ * Map starts with the last cell and finishes on the first
+ */
+typedef struct Allignment
+{
+    int row;
+    int column;
+    int score;
 
-typedef std::map<pair<int, int>, float> Allignment;
+}T_Allignment;
 
 /**
  * @brief Makes the matrix to find the best alignment
  * 
  * @param genseq1 the first genetic sequence (columnas)
  * @param genseq2 the second genetic sequence (filas)
- * @return int the best score
  */
-int nwAlgorithm(string& genseq1, string& genseq2);
+void nwAlgorithm(string& genseq1, string& genseq2);
+
+/**
+ * @brief Prints the two sequences alligned and the operations involved
+ * 
+ * @param allignment the map of allignment
+ * @param genseq1 
+ * @param genseq2 
+ */
+void printBestAllignment(vector<T_Allignment>& allignment, string& genseq1, string& genseq2);
+
