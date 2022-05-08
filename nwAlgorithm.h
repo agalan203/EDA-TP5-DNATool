@@ -21,9 +21,9 @@ using namespace std;
 #define MATCHSCORE +1
 
 /**
- * @brief Map of coordinates and score for the best allignment
+ * @brief Defines all parameters of the allignment:
  * 
- * Map starts with the last cell and finishes on the first
+ * The row and column of the chars involved and its given score
  */
 typedef struct Allignment
 {
@@ -34,17 +34,18 @@ typedef struct Allignment
 }T_Allignment;
 
 /**
- * @brief Makes the matrix to find the best alignment
+ * @brief Makes the matrix to find the best allignment
  * 
- * @param genseq1 the first genetic sequence (columnas)
- * @param genseq2 the second genetic sequence (filas)
+ * @param genseq1 the first genetic sequence
+ * @param genseq2 the second genetic sequence
+ * @param vector<T_Allignment>& to place the best allignment
  */
-void nwAlgorithm(string& genseq1, string& genseq2);
+void nwAlgorithm(string& genseq1, string& genseq2, vector<T_Allignment>& allignment);
 
 /**
  * @brief Prints the two sequences alligned and the operations involved
  * 
- * @param allignment the map of allignment
+ * @param allignment the parameters of allignment
  * @param genseq1 
  * @param genseq2 
  */

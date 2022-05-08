@@ -13,7 +13,7 @@
 
 using namespace std;
 
-void nwAlgorithm(string& genseq1, string& genseq2)
+void nwAlgorithm(string& genseq1, string& genseq2, vector<T_Allignment>& allignment)
 {
 	int n = genseq1.size() + 1;
 	int m = genseq2.size() + 1;
@@ -40,7 +40,6 @@ void nwAlgorithm(string& genseq1, string& genseq2)
 		}
 	}
 
-	vector<T_Allignment> allignment;
 	T_Allignment allignValue;
 
 	int i = n-1, j = m-1;
@@ -84,15 +83,6 @@ void nwAlgorithm(string& genseq1, string& genseq2)
 	allignment.push_back(allignValue);
 
 	reverse(allignment.begin(), allignment.end());
-
-	cout << endl << endl;
-	
-	for (auto x : allignment )
-	{
-	    cout << x.column << " " << x.row << " " << x.score << endl;
-	}
-
-	printBestAllignment(allignment, genseq1, genseq2);
 }
 
 void printBestAllignment(vector<T_Allignment>& allignment, string& genseq1, string& genseq2)
@@ -101,39 +91,28 @@ void printBestAllignment(vector<T_Allignment>& allignment, string& genseq1, stri
 	string alSeq2;
 	string alChars;
 
-/* 
-Si la diferencia entre consecutivos es < 0,
-hubo coincidencia -> va palito y se queda aji
-Si la diferencia es > 0 hubo sustitucion
--> * y se queda ahi
-Si se mueve dentro de la misma fila (j igual)
-va un - en el string 2. 
-si se mueve dentro de la misma columna 
-(i igual) va un - en ese lugar del string 1
-si va un - ahi va espacio
-*/
 	//make the strings
 	for(int i = 0; i < allignment.size()-1 ; i++)
 	{
 		int diference =  allignment.at(i).score - allignment.at(i+1).score;
-		
-		if(allignment.at(i).column == allignment.at(i+1).column) //se movio en la mima columna
+
+		if(allignment.at(i).column == allignment.at(i+1).column)
 		{
-			alSeq1 += '-';
-			alSeq2 += genseq2[allignment.at(i).row - 1];
-			alChars += ' ';
-		}
-		else if(allignment.at(i).row == allignment.at(i+1).row) //se movio en la mima fila
-		{
-			alSeq1 += genseq1[allignment.at(i).column - 1];
+			alSeq1 += genseq1[allignment.at(i).row];
 			alSeq2 += '-';
 			alChars += ' ';
 		}
-		else //se movio en diagonal
+		else if(allignment.at(i).row == allignment.at(i+1).row)
 		{
-			alSeq1 += genseq1[allignment.at(i).column - 1];
-			alSeq2 += genseq2[allignment.at(i).row - 1];
-
+			alSeq1 += '-';
+			alSeq2 += genseq2[allignment.at(i).column];
+			alChars += ' ';
+		}
+		else
+		{
+			alSeq1 += genseq1[allignment.at(i).row];
+			alSeq2 += genseq2[allignment.at(i).column];
+			
 			if(diference < 0)
 				alChars += '|';
 			else
@@ -150,7 +129,7 @@ si va un - ahi va espacio
 
 	while (counter < (maxlength/60) + 1)
 	{
-		for(int i = counter * 60; i < alSeq1.length(); i++)
+		for(int i = counter * 60; i < alSeq2.length(); i++)
 		{
 			if(length >= 60)
 			{
@@ -158,7 +137,7 @@ si va un - ahi va espacio
 				length = 0;
 				break;
 			}
-			cout << alSeq1[i];
+			cout << alSeq2[i];
 			length++;
 		}
 
@@ -178,7 +157,7 @@ si va un - ahi va espacio
 		
 		cout << endl;
 
-		for(int z = counter * 60; z < alSeq2.length(); z++)
+		for(int z = counter * 60; z < alSeq1.length(); z++)
 		{
 			if(length >= 60)
 			{
@@ -186,7 +165,7 @@ si va un - ahi va espacio
 				length = 0;
 				break;
 			}
-			cout << alSeq2[z];
+			cout << alSeq1[z];
 			length++;
 		}
 
