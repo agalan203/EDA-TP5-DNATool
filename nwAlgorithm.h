@@ -39,8 +39,9 @@ typedef struct Allignment
  * @param genseq1 the first genetic sequence
  * @param genseq2 the second genetic sequence
  * @param vector<T_Allignment>& to place the best allignment
+ * @return int the score of allignment
  */
-void nwAlgorithm(string& genseq1, string& genseq2, vector<T_Allignment>& allignment);
+int nwAlgorithm(string& genseq1, string& genseq2, vector<T_Allignment>& allignment);
 
 /**
  * @brief Prints the two sequences alligned and the operations involved
@@ -60,3 +61,10 @@ void printBestAllignment(vector<T_Allignment>& allignment, string& genseq1, stri
  * @return int the maximum value
  */
 int maxValue(int a, int b, int c);
+
+/**
+ * @brief Prints a string of genomes or allignmet configuration
+ * 
+ * @param line the string to print
+ */
+void printString(string& line, int counter);

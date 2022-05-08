@@ -13,7 +13,7 @@
 
 using namespace std;
 
-void nwAlgorithm(string& genseq1, string& genseq2, vector<T_Allignment>& allignment)
+int nwAlgorithm(string& genseq1, string& genseq2, vector<T_Allignment>& allignment)
 {
 	//make the matrix
 	int n = genseq1.size() + 1;
@@ -85,6 +85,8 @@ void nwAlgorithm(string& genseq1, string& genseq2, vector<T_Allignment>& allignm
 	}
 
 	reverse(allignment.begin(), allignment.end());
+	
+	return allignMtrx[n-1][m-1];
 }
 
 void printBestAllignment(vector<T_Allignment>& allignment, string& genseq1, string& genseq2)
@@ -132,47 +134,9 @@ void printBestAllignment(vector<T_Allignment>& allignment, string& genseq1, stri
 
 	while (counter < (maxlength/60) + 1)
 	{
-		for(int i = counter * 60; i < alSeq1.length(); i++)
-		{
-			if(length >= 60)
-			{
-				cout << endl;
-				length = 0;
-				break;
-			}
-			cout << alSeq1[i];
-			length++;
-		}
-
-		cout << endl;
-
-		for(int j = counter * 60; j < alChars.length(); j++)
-		{
-			if(length >= 60)
-			{
-				cout << endl;
-				length = 0;
-				break;
-			}
-			cout << alChars[j];
-			length++;
-		}
-		
-		cout << endl;
-
-		for(int z = counter * 60; z < alSeq2.length(); z++)
-		{
-			if(length >= 60)
-			{
-				cout << endl;
-				length = 0;
-				break;
-			}
-			cout << alSeq2[z];
-			length++;
-		}
-
-		cout << endl;
+		printString(alSeq1,counter);
+		printString(alChars,counter);
+		printString(alSeq2,counter);
 
 		counter++;
 	}
@@ -181,4 +145,24 @@ void printBestAllignment(vector<T_Allignment>& allignment, string& genseq1, stri
 int maxValue(int a, int b, int c)
 {
     return max(a, max(b,c));
+}
+
+void printString(string& line, int counter)
+{
+	int length = 0;
+
+	for(int i = counter * 60; i < line.length(); i++)
+		{
+			if(length >= 60)
+			{
+				cout << endl;
+				length = 0;
+				break;
+			}
+			cout << line[i];
+			length++;
+		}
+
+	if(length != 0)
+		cout << endl;
 }

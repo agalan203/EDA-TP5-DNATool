@@ -7,10 +7,6 @@
  * 
  * @copyright Copyright (c) 2022
  * 
- * UTIL:
- * http://rna.informatik.uni-freiburg.de/Teaching/index.jsp?toolName=Needleman-Wunsch
- * https://www.ncbi.nlm.nih.gov/nuccore/?term=sars-cov-2+complete
- * 
  */
 
 //diagonal: coincidencia-sustitucion
@@ -50,17 +46,10 @@ int main ( int argc, char **argv )
     readGenBankFile(file1, cleanFirstFile);
     readGenBankFile(file2, cleanSecondFile);
 
-    //TODO: just for debug
-    //string genseq1 = "taaaggtttataccttcccaggtaacaaaccaaccaactttcgatctcttgtagatc";
-    //string genseq2 = "aaggtttataccttcccaggtaacaaaccaaccaactttcgatctcttgta";
-    
-    string genseq1 = "taaaggtttataccttcccaggtaacaaaccaaccaactttcgatctcttgtagatctgttctctaaacgaactttaaaatctgtgtggctgtcactcgg";
-    string genseq2 = "aaggtttataccttcccaggtaacaaaccaaccaactttcgatctcttgtagatctgttctctaaacgaactttaaaatctgt";
-
     //call the algorithm
     vector<T_Allignment> allignment;
-    nwAlgorithm(genseq1, genseq2, allignment);
-	printBestAllignment(allignment, genseq1, genseq2);
+    cout << nwAlgorithm(cleanFirstFile, cleanSecondFile, allignment) << endl;
+	printBestAllignment(allignment, cleanFirstFile, cleanSecondFile);
 
     return 0;
 }
