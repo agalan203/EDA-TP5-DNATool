@@ -17,25 +17,12 @@
 //izquierda: insercion
 //arriba: delecion
 
-/*
-Deberás escribir un programa que recibe por línea de comando los nombres de dos 
-archivos GenBank a ser alineados. El programa deberá imprimir en consola el puntaje
-óptimo y un alineamiento óptimo para ambas secuencias, tal como te mostramos en
-la sección Alineamiento de secuencias.
-*/
-
-/*
-coincidencias = '|'
-indel = ' '
-sustituciones = '*'
-SI TE MOVES DENTRO DE LA MISMA FILA O DE LA MISMA COLUMNA VA UN _ en ese string
-verticalmente -> string2
-*/
 #include "fileManagement.h"
 #include "nwAlgorithm.h"
 
 #include <fstream>
 #include <iostream>
+#include <stdlib.h>     
 
 using namespace std;
 
@@ -47,20 +34,64 @@ int main ( int argc, char **argv )
     string cleanFirstFile; 
     string cleanSecondFile;
 
-    readGenBankFile(file1, cleanFirstFile);
-    readGenBankFile(file2, cleanSecondFile);
-
-    //TODO: just for debug
-    //string genseq1 = "taaaggtttataccttcccaggtaacaaaccaaccaactttcgatctcttgtagatc";
-    //string genseq2 = "aaggtttataccttcccaggtaacaaaccaaccaactttcgatctcttgta";
+    //readGenBankFile(file1, cleanFirstFile);
+    //readGenBankFile(file2, cleanSecondFile);
     
-    string genseq1 = "taaaggtttataccttcccaggtaacaaaccaaccaactttcgatctcttgtagatctgttctctaaacgaactttaaaatctgtgtggctgtcactcgg";
-    string genseq2 = "aaggtttataccttcccaggtaacaaaccaaccaactttcgatctcttgtagatctgttctctaaacgaactttaaaatctgt";
+    cleanFirstFile = "taaaggtttataccttcccaggtaacaaaccaaccaactttcgatctcttgtagatctgttctctaaacgaactttaaaatctgtgtggctgtcactcgg";
+    cleanSecondFile = "aaggtttataccttcccaggtaacaaaccaaccaactttcgatctcttgtagatctgttctctaaacgaactttaaaatctgt";
+    
+    int nwScore = 0;
+    int maxlength = max(cleanFirstFile.length(), cleanSecondFile.length());
+
+    //create substrings for more efficient memory usage
+    string genseq1;
+    string genseq2;
+
+    int diference = cleanFirstFile.length() - cleanSecondFile.length();
+
+    if(diference > 0)
+    {
+        string saveExtra = cleanFirstFile.substr(cleanSecondFile.length(),cleanFirstFile.length());
+        cleanFirstFile.erase(cleanSecondFile.length(),cleanFirstFile.length());
+    }
+    else if(diference < 0)
+    {
+        string saveExtra= cleanSecondFile.substr(cleanFirstFile.length(),cleanSecondFile.length());
+        cleanSecondFile.erase(cleanFirstFile.length(),cleanSecondFile.length());
+    }
 
     //call the algorithm
     vector<T_Allignment> allignment;
-    nwAlgorithm(genseq1, genseq2, allignment);
-	printBestAllignment(allignment, genseq1, genseq2);
+
+    for(int i = 0; i < maxlength/MAXCHARS + 1; i++)
+    {
+        if( ((i + 1) * MAXCHARS) < maxlength)
+        {
+            genseq1 = cleanFirstFile.substr(i * MAXCHARS, (i + 1) * MAXCHARS);
+            genseq2 = cleanSecondFile.substr(i * MAXCHARS, (i + 1) * MAXCHARS);
+        }
+        else
+        {
+            genseq1 = cleanFirstFile.substr(i * MAXCHARS, cleanFirstFile.length());
+            genseq2 = cleanSecondFile.substr(i * MAXCHARS, cleanSecondFile.length());
+        }
+        nwAlgorithm(genseq1, genseq2, allignment);
+        nwScore += printBestAllignment(allignment, genseq1, genseq2);
+    }
+
+    
+
+    nwScore += abs(diference) * INDELSCORE;
+
+    cout << nwScore << endl;
 
     return 0;
 }
+
+adjkakdkkja
+|||||||||||
+ajsdfjkajdh
+
+asdj______ (al string mas corto se le hace un += '-' * diferencia)
+||||      
+ahsdhfjahd (imprimo lo que habia sobrado concetenado)

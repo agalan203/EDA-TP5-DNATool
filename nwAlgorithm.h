@@ -20,6 +20,8 @@ using namespace std;
 #define SUBSTSCORE -1
 #define MATCHSCORE +1
 
+#define MAXCHARS 60
+
 /**
  * @brief Defines all parameters of the allignment:
  * 
@@ -39,8 +41,9 @@ typedef struct Allignment
  * @param genseq1 the first genetic sequence
  * @param genseq2 the second genetic sequence
  * @param vector<T_Allignment>& to place the best allignment
+ * @return score of allignment
  */
-void nwAlgorithm(string& genseq1, string& genseq2, vector<T_Allignment>& allignment);
+int nwAlgorithm(string& genseq1, string& genseq2, vector<T_Allignment>& allignment);
 
 /**
  * @brief Prints the two sequences alligned and the operations involved
@@ -49,7 +52,7 @@ void nwAlgorithm(string& genseq1, string& genseq2, vector<T_Allignment>& allignm
  * @param genseq1 
  * @param genseq2 
  */
-void printBestAllignment(vector<T_Allignment>& allignment, string& genseq1, string& genseq2);
+int printBestAllignment(vector<T_Allignment>& allignment, string& genseq1, string& genseq2);
 
 /**
  * @brief Determines the maximum value between three numbers

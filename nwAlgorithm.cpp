@@ -19,7 +19,7 @@ void nwAlgorithm(string& genseq1, string& genseq2, vector<T_Allignment>& allignm
 	int n = genseq1.size() + 1;
 	int m = genseq2.size() + 1;
 
-	int allignMtrx[n][m];
+	int allignMtrx[MAXCHARS][MAXCHARS]];
 
 	for (int i = 0 ; i < n; i++)
 	{
@@ -124,58 +124,11 @@ void printBestAllignment(vector<T_Allignment>& allignment, string& genseq1, stri
 	}
 
 	//print the strings
-	int length = 0; 
-	int counter = 0;
-	int maxlength = alChars.length();
+	cout << alSeq1 << endl;
+	cout << alChars << endl;
+	cout << alSeq2 << endl;
 
-	cout << endl;
-
-	while (counter < (maxlength/60) + 1)
-	{
-		for(int i = counter * 60; i < alSeq1.length(); i++)
-		{
-			if(length >= 60)
-			{
-				cout << endl;
-				length = 0;
-				break;
-			}
-			cout << alSeq1[i];
-			length++;
-		}
-
-		cout << endl;
-
-		for(int j = counter * 60; j < alChars.length(); j++)
-		{
-			if(length >= 60)
-			{
-				cout << endl;
-				length = 0;
-				break;
-			}
-			cout << alChars[j];
-			length++;
-		}
-		
-		cout << endl;
-
-		for(int z = counter * 60; z < alSeq2.length(); z++)
-		{
-			if(length >= 60)
-			{
-				cout << endl;
-				length = 0;
-				break;
-			}
-			cout << alSeq2[z];
-			length++;
-		}
-
-		cout << endl;
-
-		counter++;
-	}
+	return allignment.at(alChars.size()).score; //TODO: no se si va alcharsize() -1
 }
 
 int maxValue(int a, int b, int c)
