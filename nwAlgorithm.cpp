@@ -16,24 +16,24 @@ using namespace std;
 int nwAlgorithm(string& genseq1, string& genseq2, vector<T_Allignment>& allignment)
 {
 	//make the matrix
-	int n = genseq1.size() + 1;
-	int m = genseq2.size() + 1;
+	long int n = genseq1.size() + 1;
+	long int m = genseq2.size() + 1;
 
 	int allignMtrx[n][m];
 
-	for (int i = 0 ; i < n; i++)
+	for (long int i = 0 ; i < n; i++)
 	{
 		allignMtrx[i][0] = i * SUBSTSCORE;
 	}
 
-	for (int j = 0; j < m; j++)
+	for (long int j = 0; j < m; j++)
 	{
 		allignMtrx[0][j] = j * SUBSTSCORE;
 	}
 
-	for (int i = 1; i < n; i++)
+	for (long int i = 1; i < n; i++)
 	{
-		for(int j = 1; j < m; j++)
+		for(long int j = 1; j < m; j++)
 		{
 			int thisScore = genseq1[i-1] == genseq2[j-1] ? MATCHSCORE : SUBSTSCORE; 
             allignMtrx[i][j] = maxValue(allignMtrx[i-1][j-1] + thisScore, 
@@ -45,7 +45,7 @@ int nwAlgorithm(string& genseq1, string& genseq2, vector<T_Allignment>& allignme
 	//find the best allignment
 	T_Allignment allignValue;
 
-	int i = n-1, j = m-1;
+	long int i = n-1, j = m-1;
 	
 	allignValue.row = i;
 	allignValue.column = j;
@@ -85,7 +85,7 @@ int nwAlgorithm(string& genseq1, string& genseq2, vector<T_Allignment>& allignme
 	}
 
 	reverse(allignment.begin(), allignment.end());
-	
+
 	return allignMtrx[n-1][m-1];
 }
 
@@ -96,7 +96,7 @@ void printBestAllignment(vector<T_Allignment>& allignment, string& genseq1, stri
 	string alChars;
 
 	//make the strings
-	for(int i = 0; i < allignment.size()-1 ; i++)
+	for(long int i = 0; i < allignment.size()-1 ; i++)
 	{
 		int diference =  allignment.at(i).score - allignment.at(i+1).score;
 
@@ -126,9 +126,9 @@ void printBestAllignment(vector<T_Allignment>& allignment, string& genseq1, stri
 	}
 
 	//print the strings
-	int length = 0; 
-	int counter = 0;
-	int maxlength = alChars.length();
+	long int length = 0; 
+	long int counter = 0;
+	long int maxlength = alChars.length();
 
 	cout << endl;
 
@@ -147,11 +147,11 @@ int maxValue(int a, int b, int c)
     return max(a, max(b,c));
 }
 
-void printString(string& line, int counter)
+void printString(string& line, long int counter)
 {
 	int length = 0;
 
-	for(int i = counter * 60; i < line.length(); i++)
+	for(long int i = counter * 60; i < line.length(); i++)
 		{
 			if(length >= 60)
 			{
