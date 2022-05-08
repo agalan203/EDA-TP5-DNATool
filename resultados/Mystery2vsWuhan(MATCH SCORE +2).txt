@@ -1,4 +1,4 @@
-59779
+59779 (coment: se duplicó más un extra el puntaje, pero la secuencia de alineamiento se mantuvo)
 
 attaaaggtttataccttcccaggtaacaaaccaa-ccaactttcgatctcttgtagatc
 ||||||||||||||||||||||||||||||||||| | ||||||||||||||||||||||
