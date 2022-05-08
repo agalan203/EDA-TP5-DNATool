@@ -16,52 +16,56 @@ using namespace std;
 int nwAlgorithm(string& genseq1, string& genseq2, vector<T_Allignment>& allignment)
 {
 	//make the matrix
-	long int n = genseq1.size() + 1;
-	long int m = genseq2.size() + 1;
-
-	int allignMtrx[n][m];
-
-	for (long int i = 0 ; i < n; i++)
-	{
-		allignMtrx[i][0] = i * SUBSTSCORE;
-	}
-
-	for (long int j = 0; j < m; j++)
-	{
-		allignMtrx[0][j] = j * SUBSTSCORE;
-	}
-
-	for (long int i = 1; i < n; i++)
-	{
-		for(long int j = 1; j < m; j++)
-		{
-			int thisScore = genseq1[i-1] == genseq2[j-1] ? MATCHSCORE : SUBSTSCORE; 
-            allignMtrx[i][j] = maxValue(allignMtrx[i-1][j-1] + thisScore, 
-										allignMtrx[i-1][j] + INDELSCORE, 
-										allignMtrx[i][j-1] + INDELSCORE);
-		}
-	}
+	int n = genseq1.size() + 1;
+    int m = genseq2.size() + 1;
+    
+    vector<int> allignMtrx;
+    allignMtrx.resize(m*n);
+    const int newRow = m;
+    
+    for (int i = 0 ; i < n; i++)
+    {
+    	allignMtrx[i * newRow] = i * SUBSTSCORE;
+    }
+    
+    for (int j = 0; j < m; j++)
+    {
+    	allignMtrx[j] = j * SUBSTSCORE;
+    }
+    
+    for (int i = 1; i < n; i++)
+    {
+    	for(int j = 1; j < m; j++)
+    	{
+    		int thisScore = genseq1[i-1] == genseq2[j-1] ? MATCHSCORE : SUBSTSCORE; 
+            allignMtrx[i * newRow + j] = maxValue(allignMtrx[(i-1) * newRow + (j-1)] + thisScore, 
+    									allignMtrx[(i-1) * newRow + j] + INDELSCORE, 
+    									allignMtrx[i * newRow + (j-1)] + INDELSCORE);
+    	}
+    }
 
 	//find the best allignment
 	T_Allignment allignValue;
 
-	long int i = n-1, j = m-1;
+	int i = n-1, j = m-1;
 	
 	allignValue.row = i;
 	allignValue.column = j;
-	allignValue.score = allignMtrx[i][j];
+	allignValue.score = allignMtrx[i * newRow + j];
 	allignment.push_back(allignValue);
 	
 	while ( i > 0 && j > 0)
 	{
-		int maxkey = maxValue(allignMtrx[i-1][j-1], allignMtrx[i-1][j], allignMtrx[i][j-1]);
+		int maxkey = maxValue(allignMtrx[(i-1) * newRow + (j-1)], 
+							  allignMtrx[(i-1) * newRow + j], 
+							  allignMtrx[i * newRow + (j-1)]);
 
-		if (maxkey == allignMtrx[i-1][j-1])
+		if (maxkey == allignMtrx[(i-1) * newRow + (j-1)])
 		{
 			i = i-1;
 			j = j-1;
 		}
-		else if (maxkey == allignMtrx[i-1][j])
+		else if (maxkey == allignMtrx[(i-1) * newRow + j])
 		{
 			i = i-1;
 		}	
@@ -72,7 +76,7 @@ int nwAlgorithm(string& genseq1, string& genseq2, vector<T_Allignment>& allignme
 
 		allignValue.row = i;
 		allignValue.column = j;
-		allignValue.score = allignMtrx[i][j];
+		allignValue.score = allignMtrx[i * newRow + j];
 		allignment.push_back(allignValue);
 	}
 	
@@ -86,7 +90,7 @@ int nwAlgorithm(string& genseq1, string& genseq2, vector<T_Allignment>& allignme
 
 	reverse(allignment.begin(), allignment.end());
 
-	return allignMtrx[n-1][m-1];
+	return allignMtrx[(n-1) * newRow + (m-1)];
 }
 
 void printBestAllignment(vector<T_Allignment>& allignment, string& genseq1, string& genseq2)
