@@ -38,7 +38,7 @@ void readGenBankFile (string& inputfile, string& outputstring)
             }
         }
 
-        if(line.find("ORIGIN")!= string::npos)
+        if(line.find("//")!= string::npos)
             break;    
     }
 
